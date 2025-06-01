@@ -1,4 +1,4 @@
-/.phpunit.cache
+# Laravel specific
 /node_modules
 /public/build
 /public/hot
@@ -6,18 +6,52 @@
 /storage/*.key
 /storage/pail
 /vendor
+/bootstrap/cache/*
+!bootstrap/cache/.gitignore
+
+# Environment files
 .env
-.env.backup
-.env.production
-.phpactor.json
+.env.*
+!.env.example
+
+# Testing
+/.phpunit.cache
 .phpunit.result.cache
-Homestead.json
-Homestead.yaml
-npm-debug.log
-yarn-error.log
-/auth.json
+
+# IDE and editor files
 /.fleet
 /.idea
 /.nova
 /.vscode
 /.zed
+.phpactor.json
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+*.sqlite-journal
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Composer
+/auth.json
+composer.phar
+
+# Homestead
+Homestead.json
+Homestead.yaml
+
+# Docker
+docker-compose.override.yml
+
+# Misc
+npm-debug.log
+yarn-error.log
