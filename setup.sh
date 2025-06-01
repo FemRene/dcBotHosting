@@ -90,6 +90,8 @@ composer install --no-interaction --prefer-dist --optimize-autoloader
 # Install JavaScript dependencies
 echo "Installing JavaScript dependencies..."
 npm install
+npm install vite --save-dev
+chmod +x node_modules/@esbuild/linux-x64/bin/esbuild
 
 # Set up environment file
 echo "Setting up environment file..."
