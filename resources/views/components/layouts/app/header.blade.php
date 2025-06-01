@@ -15,6 +15,11 @@
                 <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:navbar.item>
+                @if(auth()->user()->isAdmin())
+                <flux:navbar.item icon="server" :href="route('admin.bots')" :current="request()->routeIs('admin.bots')" wire:navigate>
+                    {{ __('Manage Bots') }}
+                </flux:navbar.item>
+                @endif
             </flux:navbar>
 
             <flux:spacer />
@@ -101,6 +106,11 @@
                     <flux:navlist.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                       {{ __('Dashboard') }}
                     </flux:navlist.item>
+                    @if(auth()->user()->isAdmin())
+                    <flux:navlist.item icon="server" :href="route('admin.bots')" :current="request()->routeIs('admin.bots')" wire:navigate>
+                      {{ __('Manage Bots') }}
+                    </flux:navlist.item>
+                    @endif
                 </flux:navlist.group>
             </flux:navlist>
 

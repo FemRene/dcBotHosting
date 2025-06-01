@@ -102,6 +102,14 @@
                                                             </button>
                                                         </form>
                                                     @endif
+
+                                                    <form action="{{ route('bots.destroy', $bot) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this bot? This action cannot be undone.');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="bg-red-700 hover:bg-red-900 text-white text-xs font-bold py-1 px-2 rounded">
+                                                            Delete
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>

@@ -75,4 +75,14 @@ class User extends Authenticatable
             ->map(fn($word) => strtoupper(substr($word, 0, 1)))
             ->implode('');
     }
+
+    /**
+     * Check if the user is an admin
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->is_admin || ($this->discord_id && $this->discord_id === config('app.admin_discord_id'));
+    }
 }

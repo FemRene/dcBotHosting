@@ -16,7 +16,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || !Auth::user()->is_admin) {
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
             return redirect()->route('bots.index')
                 ->with('error', 'You do not have permission to access this page.');
         }

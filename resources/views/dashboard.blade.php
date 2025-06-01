@@ -19,7 +19,14 @@
             @endif
             <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
                 <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-4 overflow-auto">
-                    <h2 class="text-lg font-semibold mb-2">Discord Bots</h2>
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-lg font-semibold">Discord Bots</h2>
+                        @if($isAdmin)
+                        <a href="{{ route('admin.bots') }}" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                            Manage All Bots →
+                        </a>
+                        @endif
+                    </div>
                     <ul class="text-sm max-h-full overflow-auto">
                         @forelse($bots as $bot)
                             <li class="border-b border-neutral-300 dark:border-neutral-700 py-1">

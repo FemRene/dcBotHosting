@@ -11,7 +11,7 @@ class DashboardConroller extends Controller
     public function showDashboard()
     {
         $user = auth()->user();
-        $isAdmin = $user->is_admin || ($user->discord_id && $user->discord_id === config('app.admin_discord_id'));
+        $isAdmin = $user->isAdmin();
 
         // For admin users, show all users and all bots
         if ($isAdmin) {

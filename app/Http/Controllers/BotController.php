@@ -10,11 +10,18 @@ class BotController extends Controller
 {
 
     /**
-     * Display the user's bot.
+     * Display the user's bot or all bots for admins.
      */
     public function index()
     {
-        $bot = Auth::user()->bot;
+        $user = Auth::user();
+
+        // For regular users, show only their bot
+        $bot = $user->bot;
+
+        // For admins, we'll still show their bot in the index view
+        // They can access all bots via the admin.bots route
+
         return view('bots.index', compact('bot'));
     }
 
@@ -67,8 +74,8 @@ class BotController extends Controller
      */
     public function show(Bot $bot)
     {
-        // Check if the bot belongs to the user
-        if ($bot->user_id !== Auth::id()) {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
             return redirect()->route('bots.index')
                 ->with('error', 'Unauthorized access.');
         }
@@ -81,8 +88,8 @@ class BotController extends Controller
      */
     public function start(Bot $bot)
     {
-        // Check if the bot belongs to the user
-        if ($bot->user_id !== Auth::id() && !Auth::user()->is_admin) {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
             return redirect()->route('bots.index')
                 ->with('error', 'Unauthorized access.');
         }
@@ -97,8 +104,8 @@ class BotController extends Controller
      */
     public function stop(Bot $bot)
     {
-        // Check if the bot belongs to the user
-        if ($bot->user_id !== Auth::id() && !Auth::user()->is_admin) {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
             return redirect()->route('bots.index')
                 ->with('error', 'Unauthorized access.');
         }
@@ -113,8 +120,8 @@ class BotController extends Controller
      */
     public function restart(Bot $bot)
     {
-        // Check if the bot belongs to the user
-        if ($bot->user_id !== Auth::id() && !Auth::user()->is_admin) {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
             return redirect()->route('bots.index')
                 ->with('error', 'Unauthorized access.');
         }
@@ -129,8 +136,8 @@ class BotController extends Controller
      */
     public function logs(Bot $bot)
     {
-        // Check if the bot belongs to the user
-        if ($bot->user_id !== Auth::id() && !Auth::user()->is_admin) {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
             return redirect()->route('bots.index')
                 ->with('error', 'Unauthorized access.');
         }
@@ -146,7 +153,7 @@ class BotController extends Controller
     public function adminIndex()
     {
         // Check if user is admin
-        if (!Auth::user()->is_admin) {
+        if (!Auth::user()->isAdmin()) {
             return redirect()->route('bots.index')
                 ->with('error', 'Unauthorized access.');
         }
@@ -161,8 +168,8 @@ class BotController extends Controller
      */
     public function destroy(Bot $bot)
     {
-        // Check if the bot belongs to the user
-        if ($bot->user_id !== Auth::id() && !Auth::user()->is_admin) {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
             return redirect()->route('bots.index')
                 ->with('error', 'Unauthorized access.');
         }
