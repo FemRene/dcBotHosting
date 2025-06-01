@@ -24,17 +24,17 @@ sudo apt install -y \
 
 # Install PHP and required extensions
 sudo apt install -y \
-    php8.2 \
-    php8.2-cli \
-    php8.2-common \
-    php8.2-curl \
-    php8.2-mbstring \
-    php8.2-xml \
-    php8.2-zip \
-    php8.2-bcmath \
-    php8.2-sqlite3 \
-    php8.2-gd \
-    php8.2-intl
+    php8.3 \
+    php8.3-cli \
+    php8.3-common \
+    php8.3-curl \
+    php8.3-mbstring \
+    php8.3-xml \
+    php8.3-zip \
+    php8.3-bcmath \
+    php8.3-sqlite3 \
+    php8.3-gd \
+    php8.3-intl
 
 # Install Composer if not already installed
 if ! command_exists composer; then
