@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Spatie\Docker\DockerContainer;
 use Spatie\Docker\Exceptions\CouldNotStartDockerContainer;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 use Illuminate\Support\Facades\Log;
 
 class DockerService

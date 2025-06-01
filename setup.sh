@@ -24,17 +24,23 @@ sudo apt install -y \
 
 # Install PHP and required extensions
 sudo apt install -y \
-    php8.2 \
-    php8.2-cli \
-    php8.2-common \
-    php8.2-curl \
-    php8.2-mbstring \
-    php8.2-xml \
-    php8.2-zip \
-    php8.2-bcmath \
-    php8.2-sqlite3 \
-    php8.2-gd \
-    php8.2-intl
+    php8.3 \
+    php8.3-cli \
+    php8.3-common \
+    php8.3-curl \
+    php8.3-mbstring \
+    php8.3-xml \
+    php8.3-zip \
+    php8.3-bcmath \
+    php8.3-sqlite3 \
+    php8.3-gd \
+    php8.3-intl \
+    php8.3-fpm
+
+# Configure PHP-FPM
+echo "Configuring PHP-FPM..."
+sudo systemctl enable php8.3-fpm
+sudo systemctl start php8.3-fpm
 
 # Install Composer if not already installed
 if ! command_exists composer; then
@@ -58,6 +64,16 @@ if ! command_exists docker; then
     sudo systemctl enable --now docker
     sudo usermod -aG docker $USER
     echo "Added current user to docker group. You may need to log out and back in for this to take effect."
+fi
+
+# Install Caddy if not already installed
+if ! command_exists caddy; then
+    echo "Installing Caddy..."
+    sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+    sudo apt update
+    sudo apt install -y caddy
 fi
 
 # Clone the repository (if not already in the repository directory)
@@ -120,13 +136,48 @@ php artisan cache:clear
 php artisan view:clear
 php artisan route:clear
 
-echo "Setup complete! You can now start the application with:"
-echo "php artisan serve"
+# Configure Caddy
+echo "Configuring Caddy..."
+CADDY_CONFIG_DIR="/etc/caddy"
+SITE_ROOT=$(pwd)
+SITE_DOMAIN=${SITE_DOMAIN:-"localhost"}
+
+# Create Caddyfile
+sudo tee $CADDY_CONFIG_DIR/Caddyfile > /dev/null << EOF
+$SITE_DOMAIN {
+    root * $SITE_ROOT/public
+    php_fastcgi unix//run/php/php8.3-fpm.sock
+    file_server
+    encode gzip
+    log {
+        output file /var/log/caddy/$SITE_DOMAIN-access.log
+    }
+}
+EOF
+
+# Create log directory for Caddy
+sudo mkdir -p /var/log/caddy
+sudo chown -R caddy:caddy /var/log/caddy
+
+# Restart Caddy to apply changes
+sudo systemctl restart caddy
+
+# Build for production
+echo "Building for production..."
+composer prod build
+
+echo "Setup complete!"
+echo ""
+echo "Your Laravel application is now set up with Caddy as the web server."
+echo "You can access it at: http://$SITE_DOMAIN"
+echo ""
+echo "For development mode with hot reloading, run:"
+echo "composer dev"
+echo ""
+echo "For production builds, run:"
+echo "composer prod build"
 echo ""
 echo "To use the Discord authentication, make sure to update your .env file with your Discord credentials:"
 echo "DISCORD_CLIENT_ID=your-discord-client-id"
 echo "DISCORD_CLIENT_SECRET=your-discord-client-secret"
 echo "DISCORD_REDIRECT_URI=https://your-app-url/auth/discord/callback"
-echo ""
-echo "To start the application in development mode with hot reloading:"
-echo "composer dev"

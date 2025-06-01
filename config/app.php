@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Discord ID
+    |--------------------------------------------------------------------------
+    |
+    | This value is the Discord ID of the admin user. This is used to determine
+    | which users have admin privileges in the application. Set this in your
+    | ".env" file.
+    |
+    */
+
+    'admin_discord_id' => env('ADMIN_DISCORD_ID'),
+
 ];
