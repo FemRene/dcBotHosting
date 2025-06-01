@@ -14,6 +14,7 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item class="fa-robot" :href="route('bots.index')" :current="request()->routeIs('bots.index')" wire:navigate>{{ __('Bots') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
@@ -30,6 +31,7 @@
             </flux:navlist>
 
             <!-- Desktop User Menu -->
+            @if(auth()->user())
             <flux:dropdown position="bottom" align="start">
                 <flux:profile
                     :name="auth()->user()->name"
@@ -73,6 +75,7 @@
                     </form>
                 </flux:menu>
             </flux:dropdown>
+            @endif
         </flux:sidebar>
 
         <!-- Mobile User Menu -->
@@ -81,6 +84,7 @@
 
             <flux:spacer />
 
+            @if(auth()->user())
             <flux:dropdown position="top" align="end">
                 <flux:profile
                     :initials="auth()->user()->initials()"
@@ -123,7 +127,16 @@
                     </form>
                 </flux:menu>
             </flux:dropdown>
+            @endif
         </flux:header>
+
+        @if (isset($header))
+            <div class="bg-white shadow dark:bg-zinc-800 dark:border-b dark:border-zinc-700">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </div>
+        @endif
 
         {{ $slot }}
 
