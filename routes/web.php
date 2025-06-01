@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bots/{bot}/stop', [BotController::class, 'stop'])->name('bots.stop');
     Route::post('/bots/{bot}/restart', [BotController::class, 'restart'])->name('bots.restart');
     Route::get('/bots/{bot}/logs', [BotController::class, 'logs'])->name('bots.logs');
+    Route::delete('/bots/{bot}', [BotController::class, 'destroy'])->name('bots.destroy');
 
     // Admin routes
     Route::get('/admin/bots', [BotController::class, 'adminIndex'])

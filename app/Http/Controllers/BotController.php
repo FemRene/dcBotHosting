@@ -155,4 +155,23 @@ class BotController extends Controller
 
         return view('bots.admin', compact('bots'));
     }
+
+    /**
+     * Delete the bot.
+     */
+    public function destroy(Bot $bot)
+    {
+        // Check if the bot belongs to the user
+        if ($bot->user_id !== Auth::id() && !Auth::user()->is_admin) {
+            return redirect()->route('bots.index')
+                ->with('error', 'Unauthorized access.');
+        }
+
+        if ($bot->delete()) {
+            return redirect()->route('bots.index')
+                ->with('success', 'Bot deleted successfully.');
+        } else {
+            return back()->with('error', 'Failed to delete bot.');
+        }
+    }
 }
