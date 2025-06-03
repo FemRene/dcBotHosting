@@ -164,6 +164,51 @@ class BotController extends Controller
     }
 
     /**
+     * Show the bot settings page.
+     */
+    public function settings(Bot $bot)
+    {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
+            return redirect()->route('bots.index')
+                ->with('error', 'Unauthorized access.');
+        }
+
+        return view('bots.settings', compact('bot'));
+    }
+
+    /**
+     * Update the bot settings.
+     */
+    public function updateSettings(Request $request, Bot $bot)
+    {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
+            return redirect()->route('bots.index')
+                ->with('error', 'Unauthorized access.');
+        }
+
+        // Validate the request
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'token' => 'nullable|string',
+        ]);
+
+        // Update the bot
+        $bot->name = $request->name;
+
+        // Only update token if provided
+        if ($request->filled('token')) {
+            $bot->token = $request->token;
+        }
+
+        $bot->save();
+
+        return redirect()->route('bots.settings', $bot)
+            ->with('success', 'Bot settings updated successfully.');
+    }
+
+    /**
      * Delete the bot.
      */
     public function destroy(Bot $bot)
