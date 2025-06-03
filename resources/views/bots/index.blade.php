@@ -60,6 +60,9 @@
                                 <a href="{{ route('bots.logs', $bot) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                     View Logs
                                 </a>
+                                <a href="{{ route('bots.settings', $bot) }}" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                                    Settings
+                                </a>
                                 <form action="{{ route('bots.destroy', $bot) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this bot? This action cannot be undone.');">
                                     @csrf
                                     @method('DELETE')

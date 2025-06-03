@@ -12,6 +12,7 @@ class Bot extends Model
         'user_id',
         'name',
         'token',
+        'activity',
         'status',
         'log_path',
         'container_id',
@@ -41,7 +42,8 @@ class Bot extends Model
                     $containerId = $dockerService->createContainer(
                         (int) $this->id,
                         $this->token,
-                        $this->name
+                        $this->name,
+                        $this->activity
                     );
 
                     $this->container_id = $containerId;

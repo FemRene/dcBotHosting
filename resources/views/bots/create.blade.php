@@ -37,6 +37,15 @@
                             <p class="text-gray-600 text-xs mt-1">You can get your bot token from the <a href="https://discord.com/developers/applications" target="_blank" class="text-blue-500 hover:underline">Discord Developer Portal</a>.</p>
                         </div>
 
+                        <div class="mb-6">
+                            <label for="activity" class="block text-gray-700 text-sm font-bold mb-2">Bot Activity</label>
+                            <input type="text" name="activity" id="activity" value="{{ old('activity') }}" required
+                                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('activity') border-red-500 @enderror">
+                            @error('activity')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 Create Bot
