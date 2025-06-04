@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bots/{bot}', [BotController::class, 'show'])->name('bots.show');
     Route::get('/bots/{bot}/settings', [BotController::class, 'settings'])->name('bots.settings');
     Route::post('/bots/{bot}/settings', [BotController::class, 'updateSettings'])->name('bots.updateSettings');
+    Route::get('/bots/{bot}/modules', [BotController::class, 'modules'])->name('bots.modules');
+    Route::post('/bots/{bot}/modules', [BotController::class, 'updateModules'])->name('bots.updateModules');
     Route::post('/bots/{bot}/start', [BotController::class, 'start'])->name('bots.start');
     Route::post('/bots/{bot}/stop', [BotController::class, 'stop'])->name('bots.stop');
     Route::post('/bots/{bot}/restart', [BotController::class, 'restart'])->name('bots.restart');

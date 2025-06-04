@@ -212,6 +212,28 @@ class BotController extends Controller
             ->with('success', 'Bot settings updated successfully.');
     }
 
+    public function modules(Bot $bot)
+    {
+        // Check if the bot belongs to the user or if user is admin
+        if ($bot->user_id !== Auth::id() && !Auth::user()->isAdmin()) {
+            return redirect()->route('bots.index')
+                ->with('error', 'Unauthorized access.');
+        }
+
+        return view('bots.modules', compact('bot'));
+    }
+
+    public function updateModules(Request $request, Bot $bot)
+    {
+        $validated = $request->validate([
+            'features' => 'nullable|array',
+            'features.*' => 'in:welcome_message,auto_role,moderation,logging',
+        ]);
+        $bot->features = $validated['features'] ?? [];
+        $bot->save();
+        return redirect()->back()->with('success', 'Bot settings updated successfully!');
+    }
+
     /**
      * Delete the bot.
      */
