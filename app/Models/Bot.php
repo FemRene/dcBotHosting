@@ -44,12 +44,13 @@ class Bot extends Model
             // Check if container exists
             if (!$this->container_id || !$dockerService->containerExists($this->container_id)) {
                 try {
+                    print(implode(";",$this->features));
                     $containerId = $dockerService->createContainer(
                         (int) $this->id,
                         $this->token,
                         $this->name,
                         $this->activity,
-                        implode(";",$this->features)
+                        implode(";",$this->features),
                     );
 
                     $this->container_id = $containerId;
