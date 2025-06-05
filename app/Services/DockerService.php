@@ -19,34 +19,24 @@ class DockerService
         $this->dockerErrorMessage = $this->getDockerErrorMessage();
     }
 
-    /**
-     * Check if Docker CLI is available
-     */
     protected function isDockerAvailable(): bool
     {
         $output = null;
         $returnVar = null;
 
-        // Check for Windows
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             exec('where docker', $output, $returnVar);
         } else {
-            // For Linux/Mac
             exec('which docker', $output, $returnVar);
         }
 
-        // If docker command is found, check if it's actually working
         if ($returnVar === 0) {
-            // Try a simple docker command to verify it's working
             exec('docker --version', $output, $returnVar);
         }
 
         return $returnVar === 0;
     }
 
-    /**
-     * Get a user-friendly error message for Docker CLI not available
-     */
     protected function getDockerErrorMessage(): string
     {
         if ($this->dockerAvailable) {
@@ -64,17 +54,11 @@ class DockerService
         }
     }
 
-    /**
-     * Get the Docker error message
-     */
     public function getErrorMessage(): string
     {
         return $this->dockerErrorMessage;
     }
 
-    /**
-     * @throws CouldNotStartDockerContainer
-     */
     public function createContainer(int $botId, string $botToken, string $botName, string $activity, string $features): string
     {
         if (!$this->dockerAvailable) {
