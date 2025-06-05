@@ -16,6 +16,11 @@ class Bot extends Model
         'status',
         'log_path',
         'container_id',
+        'features',
+    ];
+
+    protected $casts = [
+        'features' => 'array',
     ];
 
     /**
