@@ -48,7 +48,8 @@ class Bot extends Model
                         (int) $this->id,
                         $this->token,
                         $this->name,
-                        $this->activity
+                        $this->activity,
+                        implode(";",$this->features)
                     );
 
                     $this->container_id = $containerId;

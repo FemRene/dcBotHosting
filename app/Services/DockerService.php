@@ -75,7 +75,7 @@ class DockerService
     /**
      * @throws CouldNotStartDockerContainer
      */
-    public function createContainer(int $botId, string $botToken, string $botName, string $activity): string
+    public function createContainer(int $botId, string $botToken, string $botName, string $activity, string $features): string
     {
         if (!$this->dockerAvailable) {
             Log::error($this->dockerErrorMessage);
@@ -91,6 +91,7 @@ class DockerService
                 ->setEnvironmentVariable('BOT_ID', (string)$botId)
                 ->setEnvironmentVariable('BOT_NAME', $botName)
                 ->setEnvironmentVariable('BOT_ACTIVITY', $activity)
+                ->setEnvironmentVariable('BOT_FEATURES', $features)
                 ->start();
         } catch (CouldNotStartDockerContainer $e) {
             Log::error('Failed to start Docker container: ' . $e->getMessage());
